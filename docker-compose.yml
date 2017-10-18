@@ -3,7 +3,6 @@ services:
 
   mysql_backup:
     build: .
-    tty: true
     mem_limit: 50M
     cpus: 0.5
     environment:
