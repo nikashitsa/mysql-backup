@@ -1,0 +1,26 @@
+version: '2.2'
+services:
+
+  mysql_backup:
+    build: .
+    tty: true
+    mem_limit: 50M
+    cpus: 0.5
+    environment:
+      REMOTE_URL: ''
+      PARAMS: ''
+      MYSQL_DUMP_PARAMS: ''
+      MYSQL_RESTORE_PARAMS: ''
+      BACKUP_LIFETIME: ''
+      BACKUP_TIME: ''
+      AWS_ACCESS_KEY_ID: ''
+      AWS_SECRET_ACCESS_KEY: ''
+    volumes:
+      - ./cache:/root/.cache/duplicity
+    links:
+      - db:mysql
+
+  db:
+    image: mariadb:10.1
+    environment:
+      MYSQL_ROOT_PASSWORD: 'YOUR_PASSWORD_HERE'

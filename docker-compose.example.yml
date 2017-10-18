@@ -1,0 +1,27 @@
+version: '2.2'
+services:
+
+  mysql_backup:
+    image: nikashitsa/mysql-backup
+    mem_limit: 50M # perhaps you need to increase this limit
+    cpus: 0.5
+    volumes:
+      - /mysql-backup/cache:/root/.cache/duplicity
+    environment:
+      REMOTE_URL: 's3://s3.eu-central-1.amazonaws.com/mysql-backup/backups'
+      PARAMS: 'full --volsize=200 --s3-multipart-chunk-size=100'
+      MYSQL_DUMP_PARAMS: '--add-drop-table --databases mydatabase --password=YOUR_PASSWORD_HERE'
+      MYSQL_RESTORE_PARAMS: '--password=YOUR_PASSWORD_HERE'
+      BACKUP_LIFETIME: '30D' # remove old (30 days) backups. Remove this line to keep all backups
+      BACKUP_TIME: '0 3 * * *' # once per day.
+      AWS_ACCESS_KEY_ID: 'put your value here'
+      AWS_SECRET_ACCESS_KEY: 'put your value here'
+    links:
+      - db:mysql
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '5'
+
+  db:
+    image: mariadb:10.1

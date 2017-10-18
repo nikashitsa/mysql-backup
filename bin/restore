@@ -1,0 +1,18 @@
+#!/bin/sh
+
+rm -f /root/.cache/duplicity/*/*.lock
+
+echo '=== Duplicity restore ==='
+duplicity restore $@ \
+    --force \
+    --no-encryption \
+    ${REMOTE_URL} \
+    /tmp/backup
+
+echo '=== MySQL restore ==='
+bunzip2 < /tmp/backup | mysql -h mysql -u root ${MYSQL_RESTORE_PARAMS}
+
+echo "=== Removing backups from local disk ==="
+rm -rf /tmp/backup
+
+echo "=== Done ==="

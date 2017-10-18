@@ -1,0 +1,28 @@
+#!/bin/sh
+
+DB_BACKUP_DIR=/tmp/backup_db_`date '+%Y%m%dT%H%M'`
+
+echo "=== Creating database dump ==="
+mysqldump -h mysql -u root ${MYSQL_DUMP_PARAMS} | bzip2 -c > ${DB_BACKUP_DIR}
+
+rm -f /root/.cache/duplicity/*/*.lock
+
+echo '=== Duplicity backup ==='
+duplicity $@ ${PARAMS} \
+  --allow-source-mismatch \
+  --no-encryption \
+  ${DB_BACKUP_DIR} \
+  ${REMOTE_URL}
+
+if [ ! -z "$BACKUP_LIFETIME" ]; then
+  echo '=== Removing old backups ==='
+  duplicity remove-older-than ${BACKUP_LIFETIME} --force ${REMOTE_URL}
+fi
+
+echo '=== Cleanup ==='
+duplicity cleanup --no-encryption --force ${REMOTE_URL}
+
+echo "=== Removing backups from local disk ==="
+rm -rf ${DB_BACKUP_DIR}
+
+echo "=== Done ==="
