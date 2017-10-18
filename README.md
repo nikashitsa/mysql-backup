@@ -33,12 +33,12 @@ docker-compose up -d
 
 Additional scripts are provided to make it easier to manually invoke backups.
 ```
-docker exec -it mymysqlbackup backup
-docker exec -it mymysqlbackup status
-docker exec -it mymysqlbackup restore
+docker exec -it mysqlbackup backup
+docker exec -it mysqlbackup status
+docker exec -it mysqlbackup restore
 ```
 
 You can restore backup to specified time. More info [here](http://duplicity.nongnu.org/duplicity.1.html#sect8).
 ```
-docker exec -it mymysqlbackup restore -t 1D
+docker exec -it mysqlbackup restore -t 1D
 ```
