@@ -12,7 +12,8 @@ Please have a look at docker-compose.example.yml
 ...
     environment:
       REMOTE_URL: 's3://s3.eu-central-1.amazonaws.com/bucket-name/backups'
-      MYSQL_DUMP_PARAMS: '-d mydatabase --gzip'
+      MYSQL_DUMP_PARAMS: '--add-drop-table --databases mydatabase --password=YOUR_PASSWORD_HERE'
+      MYSQL_RESTORE_PARAMS: '--password=YOUR_PASSWORD_HERE'
       AWS_ACCESS_KEY_ID: 'PUT YOUR VALUE HERE'
       AWS_SECRET_ACCESS_KEY: 'PUT YOUR VALUE HERE'
 ...
@@ -20,7 +21,8 @@ Please have a look at docker-compose.example.yml
 
 1. You need to change `REMOTE_URL` with your value
 2. Change `mydatabase` in `MYSQL_DUMP_PARAMS` to your database name
-3. Set your `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` values
+3. Replace `YOUR_PASSWORD_HERE` with your root user password
+4. Set your `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` values
 
 ### Start
 ```
