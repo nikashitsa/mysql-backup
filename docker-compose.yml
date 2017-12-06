@@ -3,7 +3,7 @@ services:
 
   mysql_backup:
     build: .
-    mem_limit: 50M
+    mem_limit: 50mb
     cpus: 0.5
     environment:
       REMOTE_URL: ''
@@ -14,6 +14,8 @@ services:
       BACKUP_TIME: ''
       AWS_ACCESS_KEY_ID: ''
       AWS_SECRET_ACCESS_KEY: ''
+      TELEGRAM_TOKEN: ''
+      TELEGRAM_CHAT_ID: ''
     volumes:
       - ./cache:/root/.cache/duplicity
     links:

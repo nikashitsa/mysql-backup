@@ -3,7 +3,7 @@ services:
 
   mysql_backup:
     image: nikashitsa/mysql-backup
-    mem_limit: 50M # perhaps you need to increase this limit
+    mem_limit: 50mb # perhaps you need to increase this limit
     cpus: 0.5
     volumes:
       - /mysql-backup/cache:/root/.cache/duplicity
@@ -16,6 +16,8 @@ services:
       BACKUP_TIME: '0 3 * * *' # once per day.
       AWS_ACCESS_KEY_ID: 'put your value here'
       AWS_SECRET_ACCESS_KEY: 'put your value here'
+      TELEGRAM_TOKEN: 'put your value here' # optional
+      TELEGRAM_CHAT_ID: 'put your value here' # optional
     links:
       - db:mysql
     logging:
